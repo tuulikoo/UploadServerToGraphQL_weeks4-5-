@@ -6,14 +6,20 @@ import cors from 'cors';
 
 import {notFound, errorHandler} from './middlewares';
 import api from './api';
-import MessageResponse from './interfaces/MessageResponse';
+import {MessageResponse} from './types/MessageTypes';
 
 const app = express();
 
 app.use(morgan('dev'));
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  }),
+);
 app.use(cors());
 app.use(express.json());
+
+app.use('/uploads', express.static('uploads'));
 
 app.get<{}, MessageResponse>('/', (req, res) => {
   res.json({

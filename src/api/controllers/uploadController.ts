@@ -1,11 +1,12 @@
 import {Request, Response, NextFunction} from 'express';
 import {Point} from 'geojson';
 import CustomError from '../../classes/CustomError';
+import {UploadResponse} from '../../types/MessageTypes';
 
 const uploadPost = async (
   req: Request,
-  res: Response<{}, {coords: Point}>,
-  next: NextFunction
+  res: Response<UploadResponse, {coords: Point}>,
+  next: NextFunction,
 ) => {
   try {
     if (!req.file) {
@@ -13,7 +14,7 @@ const uploadPost = async (
       throw err;
     }
 
-    const response = {
+    const response: UploadResponse = {
       message: 'file uploaded',
       data: {
         filename: req.file.filename,
